@@ -1,0 +1,185 @@
+<h1>Formulario de Actividades</h1>
+
+<div class="m-2">
+    <form [formGroup]="forma" (ngSubmit)="guardar()" >
+        <div formGroupName="nombreCompleto">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input
+                type="text"
+                class="form-control"
+                formControlName="nombre"
+                [ngClass]="{'is-invalid': forma.get('nombreCompleto.nombre').invalid && forma.get('nombreCompleto.nombre').touched}"
+                />
+                <div *ngIf="forma.get('nombreCompleto.nombre').errors?.required" class="invalid-feedback">
+                    Ingresar nombre
+                </div>
+                <div *ngIf="forma.get('nombreCompleto.nombre').errors?.minlength" class="invalid-feedback">
+                    Por lo menos debe tener 4 caracteres
+                </div>
+                <div *ngIf="forma.get('nombreCompleto.nombre').errors?.noRicardo" class="invalid-feedback">
+                    No te puedes llamar Ricardo
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="nombre">Apellido</label>
+                <input
+                type="text"
+                class="form-control"
+                formControlName="apellido"
+                [ngClass]="{'is-invalid': forma.get('nombreCompleto.apellido').invalid && forma.get('nombreCompleto.apellido').touched}"
+                />
+                <div *ngIf="forma.get('nombreCompleto.apellido').errors?.required" class="invalid-feedback">
+                    Ingresar apellido
+                </div>
+                <div *ngIf="forma.get('nombreCompleto.apellido').errors?.minlength" class="invalid-feedback">
+                    Por lo menos debe tener 4 caracteres
+                </div>
+                <div *ngIf="forma.get('nombreCompleto.apellido').errors?.noArana" class="invalid-feedback">
+                    No puedes usar el apellido Arana
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="usuario">Usuario</label>
+            <input
+            id="usuario"
+            type="text"
+            class="form-control"
+            formControlName="usuario"
+            [ngClass]="{'is-invalid': forma.get('usuario').invalid && forma.get('usuario').touched}"
+            />
+            <div *ngIf="forma.get('usuario').errors?.required" class="invalid-feedback">
+                Ingresar Usuario
+            </div>
+            <div *ngIf="forma.get('usuario').errors?.minlength" class="invalid-feedback">
+                Por lo menos debe tener 4 caracteres
+            </div>
+            <div *ngIf="forma.get('usuario').errors?.noNick" class="invalid-feedback">
+                No puedes usar el nick ricky
+            </div>
+        </div>
+        <div class="form-group">
+            <label >Password</label>
+            <input
+            id="password"
+            type="password"
+            class="form-control"
+            formControlName="pass"
+            [ngClass]="{'is-invalid': forma.get('pass').invalid && forma.get('pass').touched}"
+            />
+            <div *ngIf="forma.get('pass').errors?.required" class="invalid-feedback">
+                Ingresar password
+            </div>
+            <div *ngIf="forma.get('pass').errors?.minlength" class="invalid-feedback">
+                Por lo menos debe tener 6 caracteres para que sea una contraseña segura.
+            </div>
+            <div *ngIf="forma.get('pass').errors?.noPassword" class="invalid-feedback">
+                No puedes usar el password:  administrador
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label >Confirme su password</label>
+            <input
+            id="password2"
+            type="password"
+            class="form-control"
+            formControlName="pass2"
+            [ngClass]="{'is-invalid': forma.get('pass2').invalid && forma.get('pass2').touched}"
+            />
+            <div *ngIf="forma.get('pass2').errors?.required" class="invalid-feedback">
+                Confirmar password
+            </div>
+            <div *ngIf="forma.get('pass2').errors?.minlength" class="invalid-feedback">
+                Por lo menos debe tener 6 caracteres para que sea una contraseña segura.
+            </div>
+            <div *ngIf="forma.get('pass2').errors?.noPassword" class="invalid-feedback">
+                No puedes usar el password:  administrador
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label for="nombre">Correo</label>
+            <input
+            type="text"
+            class="form-control"
+            formControlName="correo"
+            [ngClass]="{'is-invalid': forma.get('correo').invalid && forma.get('correo').touched}"
+            />
+            <div *ngIf="forma.get('correo').errors?.required" class="invalid-feedback">
+                Ingrese su correo
+            </div>
+            <div *ngIf="forma.get('correo').errors?.pattern" class="invalid-feedback">
+                ejemplo: usuario@dominio.com
+            </div>
+
+
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlSelect2">Cliente</label>
+            <select class="form-control"
+            formControlName="cliente"
+            >
+              <option *ngFor="let cliente of clientes">
+                  {{cliente}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="cargo">Cargo</label>
+            <input
+            id="cargo"
+            type="text"
+            class="form-control"
+            formControlName="cargo"
+            [ngClass]="{'is-invalid': forma.get('cargo').invalid && forma.get('cargo').touched}"
+            />
+            <div *ngIf="forma.get('cargo').errors?.required" class="invalid-feedback">
+                Ingresar cargo
+            </div>
+            <div *ngIf="forma.get('cargo').errors?.minlength" class="invalid-feedback">
+                Por lo menos debe tener 4 caracteres
+            </div>
+            <div *ngIf="forma.get('cargo').errors?.noGerente" class="invalid-feedback">
+                No puedes asignarte el cargo de Gerente
+            </div>
+
+
+        </div>
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input"
+            formControlName="vacaciones">
+            <label class="form-check-label" for="exampleCheck1">Esta de vacaciones?</label>
+          </div>
+          <div formArrayName="intereses">
+            <div class="form-group">
+                <button type="button" class="btn btn-info" (click)="agregarIntereses()">Agregar</button>
+                <br><label>intereses</label>
+                <input
+                *ngFor="let interes of forma.get('intereses')['controls']; let i = index"
+                type="text"
+                class="form-control"
+                [formControlName]="i"
+                
+                />
+                <div *ngIf="forma.get('cargo').errors?.required" class="invalid-feedback">
+                    Ingresar un interes minimo
+                </div>
+            </div>
+          </div>
+        <button  type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>
+<div class="p-2">
+    status del usuario: {{ forma.controls.usuario.status }}
+</div>
+<div class="p-2">
+    {{ forma.value | json }}
+</div>
+<div class="p-2">
+    status del formulario: {{ forma.status }}
+</div>
+<div class="p-2">
+   status de nombre completo:  {{ forma.controls.nombreCompleto.status }}
+</div>
